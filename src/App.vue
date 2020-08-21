@@ -2,7 +2,10 @@
   <div id="app">
     <notifications position="top center"/>
     <input type="file" id="upload" ref="file" @change="upload" style="display:none;" />
-     <table class="center links" v-if="showlinks == true && showspinner == false">
+    <div class="upload center" @click="$refs.file.click()" @dragover.prevent @drop="onDrop" id="file" v-if="showlinks == false && showspinner == false">
+      <font-awesome-icon class="uploadicon center" icon="upload" />
+    </div>
+    <table class="center links" v-if="showlinks == true && showspinner == false">
       <tr>
         <td><a :href="shorturl" target="_blank">{{ shorturl }}</a></td>
         <td class="pointer" @click="copyToClipboard(shorturl)"><font-awesome-icon icon="clone" /></td>
@@ -27,9 +30,6 @@
     <div v-if="showlinks == true && showspinner == false">
       <font-awesome-icon class="footericon" icon="arrow-left" @click="reset" />
     </div>
-    <div class="upload center" @click="$refs.file.click()" id="file" v-if="showlinks == false && showspinner == false">
-      <font-awesome-icon  class="uploadicon center" icon="upload" />
-    </div>
     <div class="center" v-show="showspinner == true">
       <div class="dot-fire"></div>
     </div>
@@ -53,7 +53,8 @@ export default {
       cfurl: null,
       eterurl: null,
       showlinks: false,
-      showspinner: false
+      showspinner: false,
+      dragover: false
     }
   },
   mounted: async function () {
@@ -62,6 +63,14 @@ export default {
     })
   },
   methods: {
+    onDrop (e) {
+      e.stopPropagation()
+      e.preventDefault()
+      let files = e.dataTransfer.files
+      let fileInput = document.getElementById('upload')
+      fileInput.files = files
+      this.upload()
+    },
     async upload () {
       const that = this
       that.showspinner = true
