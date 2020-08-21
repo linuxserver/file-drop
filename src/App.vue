@@ -157,13 +157,14 @@ body {
 .file-upload {
   background: #f1f1f1;
   padding: 20px 30px 40px;
-  width: 100%;
+  width: calc(100% - 60px);
   max-width: 420px;
   margin: 30px;
   text-align: center;
   border-radius: 20px;
   box-shadow: 0 0 30px rgba(0,0,0,0.99);
   position: relative;
+  box-sizing: border-box;
 }
 .uploading {
   position: absolute;
