@@ -2,38 +2,42 @@
   <div id="app">
     <notifications position="top center"/>
     <input type="file" id="upload" ref="file" @change="upload" style="display:none;" />
-    <div class="upload center" @click="$refs.file.click()" @dragover.prevent @drop="onDrop" id="file" v-if="showlinks == false && showspinner == false">
-      <font-awesome-icon class="uploadicon center" icon="upload" />
-    </div>
-    <table class="center links" v-if="showlinks == true && showspinner == false">
-      <tr>
-        <td><a :href="shorturl" target="_blank">{{ shorturl }}</a></td>
-        <td class="pointer" @click="copyToClipboard(shorturl)"><font-awesome-icon icon="clone" /></td>
-      </tr>
-      <tr>
-        <td><a :href="infuraurl" target="_blank">{{ infuraurl | truncate(25) }}</a></td>
-        <td class="pointer" @click="copyToClipboard(infuraurl)"><font-awesome-icon icon="clone" /></td>
-      </tr>
-      <tr>
-        <td><a :href="ipfsurl" target="_blank">{{ ipfsurl | truncate(25) }}</a></td>
-        <td class="pointer" @click="copyToClipboard(ipfsurl)"><font-awesome-icon icon="clone" /></td>
-      </tr>
-      <tr>
-        <td><a :href="cfurl" target="_blank">{{ cfurl | truncate(25) }}</a></td>
-        <td class="pointer" @click="copyToClipboard(cfurl)"><font-awesome-icon icon="clone" /></td>
-      </tr>
-      <tr>
-        <td><a :href="eterurl" target="_blank">{{ eterurl | truncate(25) }}</a></td>
-        <td class="pointer" @click="copyToClipboard(eterurl)"><font-awesome-icon icon="clone" /></td>
-      </tr>
-    </table>
-    <div v-if="showlinks == true && showspinner == false">
-      <font-awesome-icon class="footericon" icon="arrow-left" @click="reset" />
-    </div>
-    <div class="center" v-show="showspinner == true">
-      <div class="dot-fire"></div>
-    </div>
-    <div v-if="showlinks == false && showspinner == false">
+    <section class="file-upload">
+      <h1 v-if="showlinks !== true">Upload files to IPFS</h1>
+      <div class="upload" @click="$refs.file.click()" @dragover.prevent @drop="onDrop" v-if="showlinks === false" id="file">
+        <font-awesome-icon class="uploadicon" icon="cloud-upload-alt" />
+        <div>Drag &amp; drop your files here...</div>
+        <div class="or">Or</div>
+        <span class="browse">Browse Files</span>
+      </div>
+      <div class="uploading" v-show="showspinner === true">
+        <div class="dot-fire"></div>
+      </div>
+      <div v-if="showlinks === true && showspinner === false">
+        <div class="linkbox">
+          <a :href="shorturl" target="_blank">{{ shorturl }}</a>
+          <span class="pointer" @click="copyToClipboard(shorturl)"><font-awesome-icon icon="clone" /></span>
+        </div>
+        <div class="linkbox">
+          <a :href="infuraurl" target="_blank">{{ infuraurl }}</a>
+          <span class="pointer" @click="copyToClipboard(infuraurl)"><font-awesome-icon icon="clone" /></span>
+        </div>
+        <div class="linkbox">
+          <a :href="ipfsurl" target="_blank">{{ ipfsurl }}</a>
+          <span class="pointer" @click="copyToClipboard(ipfsurl)"><font-awesome-icon icon="clone" /></span>
+        </div>
+        <div class="linkbox">
+          <a :href="cfurl" target="_blank">{{ cfurl }}</a>
+          <span class="pointer" @click="copyToClipboard(cfurl)"><font-awesome-icon icon="clone" /></span>
+        </div>
+        <div class="linkbox">
+          <a :href="eterurl" target="_blank">{{ eterurl }}</a>
+          <span class="pointer" @click="copyToClipboard(eterurl)"><font-awesome-icon icon="clone" /></span>
+        </div>
+      </div>
+      <a v-if="showlinks === true" href="" @click.prevent="reset"><font-awesome-icon class="backarrow" icon="arrow-left" /></a>
+    </section>
+    <div>
       <font-awesome-icon class="footericon" :icon="['fab', 'github']" @click="githublink" />
     </div>
   </div>
@@ -129,16 +133,59 @@ a {
   color: inherit; /* blue colors for links too */
   text-decoration: inherit; /* no underline */
 }
-@import url("https://fonts.googleapis.com/css?family=Lato:300");
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
 @-webkit-keyframes pulse {
   0% { box-shadow:0 0 8px #FFFFFF, inset 0 0 8px #FFFFFF; }
   50% { box-shadow:0 0 16px #FFFFFF, inset 0 0 14px #FFFFFF; }
   100% { box-shadow:0 0 8px #FFFFFF, inset 0 0 8px #FFFFFF; }
 }
 body {
-  background:#1f1f1f;
-  width:300px;
-  margin:60px auto;
+  background:#221423;
+  font-family: 'Lato', sans-serif;
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+  color: #6c5e6d;
+  font-size: 14px;
+}
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.file-upload {
+  background: #f1f1f1;
+  padding: 20px 30px 40px;
+  width: calc(100% - 60px);
+  max-width: 420px;
+  margin: 30px;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.99);
+  position: relative;
+  box-sizing: border-box;
+}
+.uploading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #221423c4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+h1 {
+  font-size: 20px;
+  text-transform: uppercase;
+  color: #936d96;
+  font-weight: 700;
+}
+p {
+  max-width: 280px;
+  margin: 0 auto 35px;
 }
 .center {
   position: absolute;
@@ -149,38 +196,72 @@ body {
 .upload {
   cursor: pointer;
   background-color:transparent;
-  width:300px;
-  height:300px;
-  border-radius:150px;
-  box-shadow: 0 0 8px #FFFFFF, inset 0 0 8px #FFFFFF;
-  -webkit-animation: pulse 2s linear 1s infinite;
+  width:100%;
+  box-sizing: border-box;
+  border-radius:15px;
+  border: 4px dashed #936d96;
+  transform: scale(1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+.or {
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #936d96;
+  margin: 10px 0;
+}
+.browse {
+  background: #ccc;
+  padding: 10px 45px;
+  text-transform: uppercase;
+  color: white;
+  margin-top: 10px;
+}
+.links {
+}
+.linkbox {
+    display: flex;
+    padding: 20px;
+    text-align: left;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+.linkbox a {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 25px;
 }
 .uploadicon {
-  color: white;
-  font-size: 125px;
-  filter:drop-shadow(3.5px 3.5px 1px #606060);
+  color: #ccc;
+  font-size: 50px;
+  margin-bottom: 8px;
 }
 .upload:hover > .uploadicon{
-  color: #D3D3D3;
-  font-size: 127px;
+  color: #936d96;
+  transition-duration: .2s;
+}
+.upload:hover > .browse{
+  background: #936d96;
   transition-duration: .2s;
 }
 .upload:hover {
-  width:310px;
-  height:310px;
-  border-radius:155px;
+  transform: scale(1.05);
   transition-duration: .2s;
 }
 .footericon {
   cursor: pointer;
-  position: fixed;
-  left: 50%;
-  bottom: 20px;
-  transform: translate(-50%, -50%);
+  position: absolute;
+  right: 20px;
+  top: 20px;
   margin: 0 auto;
-  color: white;
-  font-size: 50px;
-  filter:drop-shadow(3.5px 3.5px 1px #606060);
+  color: #ccc;
+  font-size: 30px;
 }
 .footericon:hover {
   font-size: 53px;
@@ -198,6 +279,10 @@ body {
 }
 .pointer {
  cursor: pointer;
+}
+.backarrow {
+  padding-top: 30px;
+  font-size: 53px;
 }
 .dot-fire {
   position: relative;
