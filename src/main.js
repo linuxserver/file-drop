@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Notifications from 'vue-notification'
 import App from './App.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faClone,faUpload,faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faClone,faCloudUploadAlt,faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faClone,faUpload,faGithub,faArrowLeft)
+library.add(faClone,faCloudUploadAlt,faGithub,faArrowLeft)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
