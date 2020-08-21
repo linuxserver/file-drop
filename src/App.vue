@@ -4,7 +4,6 @@
     <input type="file" id="upload" ref="file" @change="upload" style="display:none;" />
     <section class="file-upload">
       <h1>Upload files to IPFS</h1>
-      <p>Upload anything and have it hosted on IPFS for free!</p>
       <div class="upload" @click="$refs.file.click()" @dragover.prevent @drop="onDrop" v-if="showlinks === false" id="file">
         <font-awesome-icon class="uploadicon" icon="cloud-upload-alt" />
         <div>Drag &amp; drop your files here...</div>
@@ -20,23 +19,23 @@
           <span class="pointer" @click="copyToClipboard(shorturl)"><font-awesome-icon icon="clone" /></span>
         </div>
         <div class="linkbox">
-          <a :href="shorturl" target="_blank">{{ infuraurl | truncate(25) }}</a>
+          <a :href="infuraurl" target="_blank">{{ infuraurl | truncate(25) }}</a>
           <span class="pointer" @click="copyToClipboard(infuraurl)"><font-awesome-icon icon="clone" /></span>
         </div>
         <div class="linkbox">
-          <a :href="shorturl" target="_blank">{{ ipfsurl | truncate(25) }}</a>
+          <a :href="ipfsurl" target="_blank">{{ ipfsurl | truncate(25) }}</a>
           <span class="pointer" @click="copyToClipboard(ipfsurl)"><font-awesome-icon icon="clone" /></span>
         </div>
         <div class="linkbox">
-          <a :href="shorturl" target="_blank">{{ cfurl | truncate(25) }}</a>
+          <a :href="cfurl" target="_blank">{{ cfurl | truncate(25) }}</a>
           <span class="pointer" @click="copyToClipboard(cfurl)"><font-awesome-icon icon="clone" /></span>
         </div>
         <div class="linkbox">
-          <a :href="shorturl" target="_blank">{{ eterurl | truncate(25) }}</a>
+          <a :href="eterurl" target="_blank">{{ eterurl | truncate(25) }}</a>
           <span class="pointer" @click="copyToClipboard(eterurl)"><font-awesome-icon icon="clone" /></span>
         </div>
       </div>
-      <a v-if="showlinks === true" href="" @click.prevent="reset">Reset</a>
+      <a v-if="showlinks === true" href="" @click.prevent="reset"><font-awesome-icon icon="arrow-left" /></a>
     </section>
     <div>
       <font-awesome-icon class="footericon" :icon="['fab', 'github']" @click="githublink" />
