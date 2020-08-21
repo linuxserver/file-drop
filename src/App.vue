@@ -19,19 +19,19 @@
           <span class="pointer" @click="copyToClipboard(shorturl)"><font-awesome-icon icon="clone" /></span>
         </div>
         <div class="linkbox">
-          <a :href="infuraurl" target="_blank">{{ infuraurl | truncate(25) }}</a>
+          <a :href="infuraurl" target="_blank">{{ infuraurl }}</a>
           <span class="pointer" @click="copyToClipboard(infuraurl)"><font-awesome-icon icon="clone" /></span>
         </div>
         <div class="linkbox">
-          <a :href="ipfsurl" target="_blank">{{ ipfsurl | truncate(25) }}</a>
+          <a :href="ipfsurl" target="_blank">{{ ipfsurl }}</a>
           <span class="pointer" @click="copyToClipboard(ipfsurl)"><font-awesome-icon icon="clone" /></span>
         </div>
         <div class="linkbox">
-          <a :href="cfurl" target="_blank">{{ cfurl | truncate(25) }}</a>
+          <a :href="cfurl" target="_blank">{{ cfurl }}</a>
           <span class="pointer" @click="copyToClipboard(cfurl)"><font-awesome-icon icon="clone" /></span>
         </div>
         <div class="linkbox">
-          <a :href="eterurl" target="_blank">{{ eterurl | truncate(25) }}</a>
+          <a :href="eterurl" target="_blank">{{ eterurl }}</a>
           <span class="pointer" @click="copyToClipboard(eterurl)"><font-awesome-icon icon="clone" /></span>
         </div>
       </div>
@@ -231,6 +231,10 @@ p {
 }
 .linkbox a {
   flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-right: 25px;
 }
 .uploadicon {
   color: #ccc;
