@@ -3,7 +3,7 @@
     <notifications position="top center"/>
     <input type="file" id="upload" ref="file" @change="upload" style="display:none;" />
     <section class="file-upload">
-      <h1>Upload files to IPFS</h1>
+      <h1 v-if="showlinks !== true">Upload files to IPFS</h1>
       <div class="upload" @click="$refs.file.click()" @dragover.prevent @drop="onDrop" v-if="showlinks === false" id="file">
         <font-awesome-icon class="uploadicon" icon="cloud-upload-alt" />
         <div>Drag &amp; drop your files here...</div>
@@ -35,7 +35,7 @@
           <span class="pointer" @click="copyToClipboard(eterurl)"><font-awesome-icon icon="clone" /></span>
         </div>
       </div>
-      <a v-if="showlinks === true" href="" @click.prevent="reset"><font-awesome-icon icon="arrow-left" /></a>
+      <a v-if="showlinks === true" href="" @click.prevent="reset"><font-awesome-icon class="backarrow" icon="arrow-left" /></a>
     </section>
     <div>
       <font-awesome-icon class="footericon" :icon="['fab', 'github']" @click="githublink" />
@@ -279,6 +279,10 @@ p {
 }
 .pointer {
  cursor: pointer;
+}
+.backarrow {
+  padding-top: 30px;
+  font-size: 53px;
 }
 .dot-fire {
   position: relative;
