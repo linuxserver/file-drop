@@ -15,10 +15,6 @@
       </div>
       <div v-if="showlinks === true && showspinner === false">
         <div class="linkbox">
-          <a :href="shorturl" target="_blank">{{ shorturl }}</a>
-          <span class="pointer" @click="copyToClipboard(shorturl)"><font-awesome-icon icon="clone" /></span>
-        </div>
-        <div class="linkbox">
           <a :href="infuraurl" target="_blank">{{ infuraurl }}</a>
           <span class="pointer" @click="copyToClipboard(infuraurl)"><font-awesome-icon icon="clone" /></span>
         </div>
@@ -51,7 +47,6 @@ export default {
   data() {
     return {
       ipfs: null,
-      shorturl: null,
       infuraurl: null,
       ipfsurl: null,
       cfurl: null,
@@ -85,18 +80,12 @@ export default {
         reader.onload = async function(file) {
           const filebytes = file.target.result
           let ipfsreturn = await that.ipfs.add(filebytes)
-          let link = 'https://ipfs.infura.io/ipfs/' + ipfsreturn.path
-          let cures = await fetch('https://cu8.in/api/?action=short&urls=|' + link + '|')
-          if (cures.ok) { 
-            let cujson = await cures.json()
-            that.shorturl = cujson.data.shortUrl.secure
-            that.infuraurl = 'https://ipfs.infura.io/ipfs/' + ipfsreturn.path
-            that.ipfsurl = 'https://ipfs.io/ipfs/' + ipfsreturn.path
-            that.cfurl = 'https://cloudflare-ipfs.com/ipfs/' + ipfsreturn.path
-            that.eterurl = 'https://ipfs.eternum.io/ipfs/' + ipfsreturn.path
-            that.showspinner = false
-            that.showlinks = true
-          }
+          that.infuraurl = 'https://ipfs.infura.io/ipfs/' + ipfsreturn.path
+          that.ipfsurl = 'https://ipfs.io/ipfs/' + ipfsreturn.path
+          that.cfurl = 'https://cloudflare-ipfs.com/ipfs/' + ipfsreturn.path
+          that.eterurl = 'https://ipfs.eternum.io/ipfs/' + ipfsreturn.path
+          that.showspinner = false
+          that.showlinks = true
         }
       }
     },
